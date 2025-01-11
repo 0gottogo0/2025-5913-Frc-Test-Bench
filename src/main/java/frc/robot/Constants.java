@@ -14,6 +14,20 @@ package frc.robot;
  */
 public final class Constants {
   public static class OperatorConstants {
+    // ** Controllers **
     public static final int kDriverControllerPort = 0;
   }
+
+    // ** Speeds **
+    public static final double kElevetorSpeedMax = 0.5;
+
+    // ** Motors **
+    public static final int kElevetorMotor = 1;
+
+    // ** Pistons **
+    public static final int kPistonModule = 23;
+    public static final int kPiston1Out = 15;
+    public static final int kPiston1In = 14;
+    public static final int kPiston2Out = 1;
+    public static final int kPiston2In = 0;
 }

@@ -4,11 +4,13 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.subsystems.Arm;
+import frc.robot.subsystems.Camera;
+import frc.robot.subsystems.Piston;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -23,21 +25,31 @@ public class RobotContainer {
       new CommandXboxController(OperatorConstants.kDriverControllerPort);
 
       public final Arm arm = new Arm();
+      public final Camera camera = new Camera();
+      public final Piston piston = new Piston();
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     configureBindings();
   }
-  
+
   private void configureBindings() {
 
-    driverController.rightBumper().whileTrue(arm.runEnd(
-      () -> arm.positive(0.5),
+    driverController.b().whileTrue(arm.runEnd(
+      () -> arm.positive(0.1),
       () -> arm.stop()));
   
-    driverController.leftBumper().whileTrue(arm.runEnd(
-      () -> arm.negitive(0.5),
+    driverController.a().whileTrue(arm.runEnd(
+      () -> arm.negative(-0.1),
       () -> arm.stop()));
+
+    driverController.x().whileTrue(arm.runEnd(
+      () -> arm.positive(MathUtil.clamp(Camera.moveInput(), -Constants.kElevetorSpeedMax, Constants.kElevetorSpeedMax)),
+      () -> arm.stop()));
+
+    driverController.y().whileTrue(piston.runEnd(
+      () -> piston.set(true),
+      () -> piston.set(false)));
   }
 
   /**
